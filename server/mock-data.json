@@ -1,5 +1,5 @@
-[{"id": 1, "name": "Stedd", "level": 18, "feats": "..."},
-{"id": 2, "name": "Astrea", "level": 17, "feats": "..."},
-{"id": 3, "name": "Minrios", "level": 17, "feats": "..."},
-{"id": 3, "name": "Fulgur", "level": 17, "feats": "..."}
+[{"id": 1, "name": "Stedd", "HP": 50,"level": 18, "feats": "..."},
+{"id": 2, "name": "Astrea", "HP": 50, "level": 17, "feats": "..."},
+{"id": 3, "name": "Minrios", "HP": 50, "level": 17, "feats": "..."},
+{"id": 3, "name": "Fulgur", "HP": 50, "level": 17, "feats": "..."}
 ]

@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Data Table</h1>
+      <h1>D&D Players</h1>
 
       {pcs.length > 0 ? (
         <table border="1" cellPadding="10" cellSpacing="0">
