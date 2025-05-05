@@ -5,49 +5,52 @@ import './App.css'
 import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const[array, setArray] = useState([]);
+  const[pcs, setPcs] = useState([]);
 
+  // Fetches axios and data from backend. 
   const fetchAPI = async () => {
-    const response = await axios.get("http://localhost:8080/api");
-    setArray[response.data.fruits];
-    console.log(response.data.fruits);
+    const response = await axios.get("http://localhost:8080/api/data");
+    console.log("response is: ", response);
+    setPcs(response.data);
   }
 
   useEffect(() => {
-    fetchAPI();
+    fetchAPI()
   }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-        {array.map((fruit, index) => (
-          <div key = {index}>
-            <p> {fruit} </p>
-            <br></br>
-          </div>
-        ))}
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div style={{ padding: '20px' }}>
+      <h1>Data Table</h1>
+
+      {pcs.length > 0 ? (
+        <table border="1" cellPadding="10" cellSpacing="0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Level</th>
+              <th>Feats</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {pcs.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.level}</td>
+                <td>{item.feats}</td>
+
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>Loading or no data found.</p>
+      )}
+    </div>
   );
 }
 
-export default App
+
+export default App;
