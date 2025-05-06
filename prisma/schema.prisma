@@ -29,14 +29,21 @@ model Pc {
     wis         Int
     char        Int
     role        Role    @default(USER)
-    feats       Feats[]
+    feats       pcObtained[]
+}
+
+model pcObtained {
+    id        Int     @id @default(autoincrement())
+    user      Pc    @relation(fields: [pcId], references: [id])
+    pcId    Int
+    Feat   Feats @relation(fields: [featId], references: [id])
+    featId Int
 }
 
 model Feats {
     id          Int     @id @default(autoincrement())
-    pcs         Pc[]
+    pcs         pcObtained[]
     Name        String  
-    obtained    Boolean @default(false) 
     halfFeat    Boolean @default(false)
     stats       StatsIncr[] 
 }
