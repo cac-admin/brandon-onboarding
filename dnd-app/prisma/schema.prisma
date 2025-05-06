@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "../src/generated/prisma"
+}
+
+datasource db {
+    provider = "sqlite"
+    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+    // Further reading:
+    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+    url      = env("DATABASE_URL")
+}
+
+model Pc {
+    id          Int     @id @default(autoincrement())
+    name        String
+    class       String
+    level       Int @default(3) 
+    currentHp   Int 
+    maxHp       Int 
+    str         Int
+    dex         Int
+    con         Int
+    int         Int
+    wis         Int
+    char        Int
+    role        Role    @default(USER)
+    feats       Feats[]
+}
+
+model Feats {
+    id          Int     @id @default(autoincrement())
+    pcs         Pc[]
+    Name        String  
+    obtained    Boolean @default(false) 
+    halfFeat    Boolean @default(false)
+    stats       StatsIncr[] 
+}
+
+model StatsIncr {
+    id          Int     @id @default(autoincrement())
+    statId      Int
+    str         Boolean @default(false)
+    dex         Boolean @default(false)
+    con         Boolean @default(false)
+    int         Boolean @default(false)
+    wis         Boolean @default(false)
+    char        Boolean @default(false)
+    feat        Feats @relation(fields: [statId], references: [id])
+}
+
+
+
+enum Role {
+    USER 
+    ADMIN
+}
