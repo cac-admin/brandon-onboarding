@@ -7,6 +7,7 @@ import { playerCharactersRouter } from "./routers/playerCharacters";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+
   playerCharacters: playerCharactersRouter,
 });
 
