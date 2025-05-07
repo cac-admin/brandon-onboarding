@@ -7,6 +7,16 @@ generator client {
 }
 
 
+datasource db {
+    provider = "sqlite"
+    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+    // Further reading:
+    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+    url      = env("DATABASE_URL")
+}
+
+
 model User {
     id               String   @id @default(cuid())
     name             String?
@@ -58,14 +68,6 @@ model VerificationToken {
 }
 
 
-datasource db {
-    provider = "sqlite"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
-}
 
 model Pc {
     id          Int     @id @default(autoincrement())
@@ -80,14 +82,75 @@ model Pc {
     int         Int
     wis         Int
     char        Int
+
+    // Connecting player characters to users (one-to-one)
     user        User    @relation(fields: [userId], references: [id])
-    userId      String     @unique  
+    userId      String  @unique 
+
+    // Connecting associated race to player character (many-to-one because multiple character can be a race, but player characters can't be many races)
+    Race        Race @relation(fields: [raceId], references: [id])
+    raceId      Int
+
+    // connecting associated feat to player character (Many-to-many because player characters can have more than one feat)
+    feats       Feats[]
+}
+
+model Race {
+    id  Int     @id @default(autoincrement())
+    name String
+    abilities String
+
+    spells  Spells[]  
+    
+    statIncr    StatIncr[]
+    
+    users Pc[]
 }
 
 model Feats {
     id          Int     @id @default(autoincrement())
-    Name        String  
-    halfFeat    Boolean @default(false)
+    name        String  
+    description String
+
+    statIncr    StatIncr[]
+
+    users  Pc[] 
+
+    spells Spells[]
+}
+
+model Spells {
+    id Int @id @default(autoincrement())
+    spells String
+
+    race    Race[]
+
+    feats   Feats[]
+}
+
+model StatIncr {
+    id Int @id @default(autoincrement())
+
+    // Each race that increases a stat (one-to-many)
+    raceId Int
+    race Race   @relation(fields: [raceId], references: [id])
+
+    // Each half-feat that increases a stat (one-to-many)
+    featId  Int 
+    feats   Feats @relation(fields: [featId], references: [id])
+
+    // Increasing the associated stat (typically 1)
+    stat Stat
+    amount Int @default(1)
+}
+
+enum Stat {
+  STR
+  DEX
+  CON
+  INT
+  WIS
+  CHA
 }
 
 enum Role {
