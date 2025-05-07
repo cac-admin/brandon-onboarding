@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import { api } from "~/trpc/react";
 
 const PlayerData = () => {
-    const { data: users, isLoading } = api.playerCharacter.getAll.useQuery()
+    const { data: users, isLoading } = api.playerCharacters.getAll.useQuery()
 
     return (
         <table> 
