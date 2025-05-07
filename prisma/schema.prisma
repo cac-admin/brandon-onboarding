@@ -15,7 +15,7 @@ model User {
     image            String?
     accounts         Account[]
     sessions         Session[]
-    character        Pc?
+    character        Pc[]
     role             Role    @default(USER)
 
 }
@@ -71,9 +71,12 @@ model Pc {
     id          Int     @id @default(autoincrement())
     name        String
     class       String
+
     level       Int     @default(3)
-    currentHp   Int
+
+    currentHp   Int    
     maxHp       Int
+    
     str         Int
     dex         Int
     con         Int
