@@ -14,6 +14,24 @@ export default async function Home() {
               <div className="flex flex-col items-center justify-center gap-4">
                 <div>
                   <h1>Player Data</h1>
+                </div>
+                  <table>
+                    <thead>
+                      <tr> 
+                        <th>User</th>
+                        <th>Character</th>
+                        <th>Level</th>
+                        <th>HP</th>
+                        <th>STR</th>
+                        <th>DEX</th>
+                        <th>CON</th>
+                        <th>INT</th>
+                        <th>WIS</th>
+                        <th>CHAR</th>
+                      </tr>
+                    </thead>
+                  </table>
+                <div>
                     <PlayerData /> 
                 </div>
 
@@ -27,11 +45,9 @@ export default async function Home() {
                 >
                   {session ? "Sign out" : "Sign in"}
                 </Link>
-                <button>Hi there</button>
               </div>
               
           </main>
       </HydrateClient>
-    </>
   );
 }
