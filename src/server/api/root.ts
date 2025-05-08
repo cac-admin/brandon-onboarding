@@ -1,13 +1,13 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-import { playerCharactersRouter } from "./routers/playerCharacters";
-
+import { playerCharactersRouter } from "./routers/adminPlayerCharacters";
+import { addCharacterButton } from "./routers/addCharacterButton";
 /**
  * This is the primary router for your server.
  *
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-
+  characterButton: addCharacterButton,
   playerCharacters: playerCharactersRouter,
 });
 
