@@ -55,6 +55,10 @@ background-color: #777;
 background-color: #42a942;
 }
 
+.label-dead {
+    background-color: #d9534f;
+}
+
 .lavel-error {
 background-color: #d9534f;
 }

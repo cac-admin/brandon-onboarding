@@ -1,21 +1,18 @@
 import Link from "next/link";
 import { auth } from "~/server/auth";
 import { HydrateClient } from "~/trpc/server";
-import React from 'react';
 
 import PlayerData from "./_components/adminPlayerCharacters";
-import AddCharacterButton from "./_components/addCharacterButton";
 import { Table } from "./_components/table";
 import { Button } from "./_components/Modal";
 
 export default async function Home() {
   const session = await auth();
-
   return (
     <HydrateClient>
       <div className="App">
       <h1>Player Data</h1>
-        <Table />
+        <Table/>
         <Button />
           <p className="text-center text-2xl text-black">
           

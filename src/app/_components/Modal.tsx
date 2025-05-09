@@ -2,12 +2,27 @@
 
 import React from 'react'
 import { useState } from 'react';
+import type { FormEvent } from 'react';
 
 import "./Modal.css";
 
-export const Modal = () => {
+interface ModalProps {
+  closeModal: () => void;
+}
+
+export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
     return (
-        <div className="modal-container">
+        // Closes window when user clicks on backdrop 
+        <div
+            className="modal-container"
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                if ((e.target as HTMLDivElement).className === 'modal-container') {
+                    closeModal();
+                }
+            }}
+            >
+
+            {/* dashboard */}
             <div className="modal"> 
                 <form>
                     <div className="form-group"> 
@@ -54,6 +69,7 @@ export const Modal = () => {
                             <option value="draft">Draft</option>
                         </select>  
                     </div>
+                    {/* Submit button to add in new data */}
                     <button type="submit" className="btn">Submit</button>
                 </form>
             </div>
@@ -68,7 +84,7 @@ export const Button = () => {
     return (
         <>
             <button className="btn" onClick={() => setModelOpen(true)}>Add</button>
-            {modelOpen && <Modal />}
+            {modelOpen && <Modal closeModal={() => setModelOpen(false)} />}
         </>
     )
 }
