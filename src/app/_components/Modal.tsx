@@ -1,18 +1,77 @@
 "use client";
 
-import React from 'react'
-import { useState } from 'react';
-import type { FormEvent } from 'react';
-
-import "./Modal.css";
+import React, { useState } from "react";
+import { api } from "~/trpc/react"; 
+import styles from "../index.module.css";
 
 interface ModalProps {
-  closeModal: () => void;
+closeModal: () => void;
+}
+
+function closeModal() {
+    throw new Error("Function not implemented.");
 }
 
 export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
+
+    const [form, setForm] = useState ({
+        name: "",
+        class: "",
+        level: 1,
+        hp: 10,
+        str: 10,
+        dex: 10,
+        con: 10,
+        int: 10,
+        wis: 10,
+        char: 10,
+        race: 1,
+        status: "draft" as "live" | "dead" | "draft",
+    });
+
+    const createCharacter = api.addCharacter.create.useMutation({
+        onSuccess: () => {
+            closeModal();
+        },
+        onError: (error) => {
+            console.error("Error creating Character", error)
+        },
+    })
+
+    const handleSubmit  = (e: React.FormEvent) => {
+        e.preventDefault();
+        createCharacter.mutate({
+            name: form.name,
+            class: form.class,
+            level: form.level,
+            hp: form.hp,
+            str: form.str,
+            dex: form.dex,
+            con: form.con,
+            int: form.int,
+            wis: form.wis,
+            char: form.char,
+            race: form.race,
+            status: form.status,
+        })
+    }
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        const { name, value } = e.target
+
+        setForm((prev) => ({
+            ...prev, 
+            [name]:
+            ["level", "hp", "str", "dex", "con", "int", "wis", "char", "race"].includes(name)
+            ? parseInt(value)
+            : value,
+        }))
+    }
     return (
         // Closes window when user clicks on backdrop 
+    
         <div
             className="modal-container"
             onClick={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -21,45 +80,54 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
                 }
             }}
             >
-
             {/* dashboard */}
             <div className="modal"> 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="form-group"> 
                         <label htmlFor="name">Name</label>
-                        <input name="name" />
+                        <input name="name" value={form.name} onChange = {handleChange}/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor='class'>Class</label>
+                        <input name="class" value={form.class} onChange = {handleChange}/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="level">Level</label>
-                        <input name="level" />
+                        <input name="level" type="number" value={form.level} onChange = {handleChange}/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="hp">HP</label>
-                        <input name="hp" />
+                        <input name="hp" value={form.hp} onChange = {handleChange}/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="str">STR</label>
-                        <input name="str" />
+                        <input name="str" value={form.str} onChange = {handleChange}/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="dex">DEX</label>
-                        <input name="dex" />
+                        <input name="dex" value={form.dex} onChange = {handleChange}/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="con">CON</label>
-                        <input name="con" />
+                        <input name="con" value={form.con} onChange = {handleChange}/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="int">INT</label>
-                        <input name="int" />
+                        <input name="int" value={form.int} onChange = {handleChange}/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="wis">WIS</label>
-                        <input name="wis" />
+                        <input name="wis" value={form.wis} onChange = {handleChange}/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="char">CHAR</label>
-                        <input name="char" />
+                        <input name="char" value={form.char} onChange = {handleChange}/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="race">Race</label>
+                        <select name="race">
+                            <option value = {1}>Human</option>
+                        </select>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="status">Status</label>
@@ -87,4 +155,8 @@ export const Button = () => {
             {modelOpen && <Modal closeModal={() => setModelOpen(false)} />}
         </>
     )
+}
+
+function AsyncResource() {
+    throw new Error("Function not implemented.");
 }

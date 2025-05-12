@@ -16,15 +16,15 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  character     Pc[]
-  role          Role      @default(USER)
+  characters    Character[]
+  role          Role        @default(USER)
 }
 
 model Account {
@@ -49,7 +49,7 @@ model Account {
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String   @unique
+  sessionToken String
   userId       String
   expires      DateTime
 
@@ -64,7 +64,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Pc {
+model Character {
   id    Int    @id @default(autoincrement())
   name  String
   class String
@@ -80,6 +80,8 @@ model Pc {
   int  Int
   wis  Int
   char Int
+
+  status Status[]
 
   // Connecting player characters to users (one-to-one)
   user   User   @relation(fields: [userId], references: [id])
@@ -102,7 +104,15 @@ model Race {
 
   statIncr StatIncr[]
 
-  users Pc[]
+  users Character[]
+}
+
+model Status { 
+  id Int @id @default(autoincrement())
+  Alive String @default("Alive")
+  Dead String @default("Dead")
+  Draft String @default("Draft")
+  users Character[]
 }
 
 model Feats {
@@ -112,7 +122,7 @@ model Feats {
 
   statIncr StatIncr[]
 
-  users Pc[]
+  users Character[]
 
   spells Spells[]
 }

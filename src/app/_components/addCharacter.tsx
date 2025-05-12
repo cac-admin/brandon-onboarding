@@ -1,13 +1,26 @@
-"use client";
+import { z } from "zod";
+import { PrismaClient } from "src/generated/prisma/client";
 
-import React, { useState} from 'react'
-import type { number } from 'zod';
-import { api } from "~/trpc/react";
-import type { FormEvent } from 'react';
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
-const submitButton = () => {
-  
-    
-};
+const prisma = new PrismaClient()
 
-export default submitButton;
+export const postRouter = createTRPCRouter({
+  create: protectedProcedure
+    .input(z.object({ name: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      return await prisma.character.create({
+        data: {
+          name: input.name,
+          class: input.class,
+          level: input.level,
+
+          currentHp: input.hp,
+        },
+      });
+    }),
+});
