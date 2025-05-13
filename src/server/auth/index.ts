@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import { cache } from "react";
-import { PrismaClient } from "~/generated/prisma/client"
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 

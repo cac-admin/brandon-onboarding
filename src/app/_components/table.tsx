@@ -3,85 +3,26 @@
 import React from "react"
 import { BsFillTrashFill,  BsFillPencilFill} from "react-icons/bs"
 import "./table.css"
-import { PrismaClient } from "src/generated/prisma/client";
-import { useState, useEffect } from "react";
-import { Chathura } from "next/font/google";
+import { PrismaClient } from "@prisma/client";
+
+import { api } from "~/trpc/react";
 
 export const prisma = new PrismaClient();
-
-
-  interface RowData {
-    user: string;
-    name: string;
-    level: number;
-    Hp: number;      // Correct field name
-    maxHp: number;
-    STR: number;     // Correct field name
-    DEX: number;     // Correct field name
-    CON: number;     // Correct field name
-    INT: number;     // Correct field name
-    WIS: number;     // Correct field name
-    CHA: number;     // Correct field name
-    status: string;  // Correct field name
-    }   
-
-
-interface TableProps {
-    rows: RowData[]
-    deleteRow: (index: number) => void;
-}
-
 
 
 
 export const Table = () => {
     
-    
-    const [rows, setRows] = useState<RowData[]>([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            const characters = await prisma.character.findMany({
-                select: {
-                    name: true,        // Select the character's name
-                    class: true,       // Select the character's class
-                    level: true,       // Select the character's level
-                    currentHp: true,   // Select the current HP of the character
-                    maxHp: true,       // Select the max HP of the character
-                    str: true,         // Select the STR stat
-                    dex: true,         // Select the DEX stat
-                    con: true,         // Select the CON stat
-                    int: true,         // Select the INT stat
-                    wis: true,         // Select the WIS stat
-                    char: true,        // Select the CHA stat
-                    status: true,      // Select the character's status
-                    user: {            // Include related user data
-                    select: {
-                        name: true,    // Select only the name field from the user model
-                    },
-                },
-            },
-        })
-        const formattedRows = characters.map((character) => ({
-            user: character.user?.name || "unkown",
-            name: character.name,
-            class: character.class,
-            level: character.level,
-            Hp: character.currentHp,
-            maxHp: character.maxHp,
-            STR: character.str,
-            DEX: character.dex,
-            CON: character.con,
-            INT: character.int,
-            WIS: character.wis,
-            CHA: character.char,
-            status: character.status?.[0]?.Alive ?? "Unknown", 
-        }));
-        
-        setRows(formattedRows)
-    };
+    const { data: rows, isLoading } = api.playerCharacters.getCharacter.useQuery(); 
 
-    fetchData()
-}, []);
+    if (isLoading) {
+        return <p> Loading Characters...</p>
+    }
+    if (!rows) {
+        return 
+        <p>There are no characters</p>
+    }
+
     return ( 
         <div className="table-wrapper">
             <table className="table">
@@ -103,25 +44,20 @@ export const Table = () => {
                 </thead>
                 <tbody>
                     {rows.map((row, idx) => {
-                        const statusText = row.status.charAt(0).toUpperCase() + row.status.slice(1);
                         return (
                             <tr key = {idx}>
-                                <td>{row.user}</td>
+                                <td>{row.user.name}</td>
                                 <td>{row.name}</td>
                                 <td>{row.level}</td>
-                                <td>{row.Hp}</td>
-                                <td>{row.STR}</td>
-                                <td>{row.DEX}</td>
-                                <td>{row.CON}</td>
-                                <td>{row.INT}</td>
-                                <td>{row.WIS}</td>
-                                <td>{row.CHA}</td>
-                                <td>
-                                    <span className={`label label-${row.status}`}>
-                                        {row.status}
-                                    </span>
-
-                                </td>
+                                <td>{row.maxHp}</td>
+                                <td>{row.str}</td>
+                                <td>{row.dex}</td>
+                                <td>{row.con}</td>
+                                <td>{row.int}</td>
+                                <td>{row.wis}</td>
+                                <td>{row.char}</td>
+                                <td></td>
+                                {/* <td>{row.status}</td> */}
                                 <td className="actions">
                                     <BsFillTrashFill className = "delete-btn >" />
                                     <BsFillPencilFill />   
@@ -135,3 +71,25 @@ export const Table = () => {
     )
 }
 
+[{
+	"resource": "/c:/Users/brandonk.admin/Documents/GitHub/brandon-onboarding/src/app/_components/table.tsx",
+	"owner": "typescript",
+	"code": "2322",
+	"severity": 8,
+	"message": "Type '{ id: number; Alive: string; Dead: string; Draft: string; }[]' is not assignable to type 'ReactNode'.\n  Type '{ id: number; Alive: string; Dead: string; Draft: string; }[]' is not assignable to type 'Iterable<ReactNode>'.\n    The types returned by '[Symbol.iterator]().next(...)' are incompatible between these types.\n      Type 'IteratorResult<{ id: number; Alive: string; Dead: string; Draft: string; }, undefined>' is not assignable to type 'IteratorResult<ReactNode, any>'.\n        Type 'IteratorYieldResult<{ id: number; Alive: string; Dead: string; Draft: string; }>' is not assignable to type 'IteratorResult<ReactNode, any>'.\n          Type 'IteratorYieldResult<{ id: number; Alive: string; Dead: string; Draft: string; }>' is not assignable to type 'IteratorYieldResult<ReactNode>'.\n            Type '{ id: number; Alive: string; Dead: string; Draft: string; }' is not assignable to type 'ReactNode'.",
+	"source": "ts",
+	"startLineNumber": 59,
+	"startColumn": 37,
+	"endLineNumber": 59,
+	"endColumn": 49,
+	"relatedInformation": [
+		{
+			"startLineNumber": 2166,
+			"startColumn": 9,
+			"endLineNumber": 2166,
+			"endColumn": 17,
+			"message": "The expected type comes from property 'children' which is declared here on type 'DetailedHTMLProps<TdHTMLAttributes<HTMLTableDataCellElement>, HTMLTableDataCellElement>'",
+			"resource": "/c:/Users/brandonk.admin/Documents/GitHub/brandon-onboarding/node_modules/@types/react/index.d.ts"
+		}
+	]
+}]

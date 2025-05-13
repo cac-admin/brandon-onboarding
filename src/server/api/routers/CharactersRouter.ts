@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { PrismaClient } from "src/generated/prisma/client";
-import { Prisma } from "~/generated/prisma";
+import { PrismaClient } from "@prisma/client";
 
 export const db = new PrismaClient();
 

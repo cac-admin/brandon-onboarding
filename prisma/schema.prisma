@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  // output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -13,6 +13,11 @@ datasource db {
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
+}
+enum Status { 
+  ALIVE
+  DEAD
+  DRAFT
 }
 
 model User {
@@ -49,7 +54,7 @@ model Account {
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String
+  sessionToken String   @unique
   userId       String
   expires      DateTime
 
@@ -81,11 +86,11 @@ model Character {
   wis  Int
   char Int
 
-  status Status[]
+  status Status @default(ALIVE)
 
   // Connecting player characters to users (one-to-one)
   user   User   @relation(fields: [userId], references: [id])
-  userId String @unique
+  userId String 
 
   // Connecting associated race to player character (many-to-one because multiple character can be a race, but player characters can't be many races)
   Race   Race @relation(fields: [raceId], references: [id])
@@ -107,13 +112,6 @@ model Race {
   users Character[]
 }
 
-model Status { 
-  id Int @id @default(autoincrement())
-  Alive String @default("Alive")
-  Dead String @default("Dead")
-  Draft String @default("Draft")
-  users Character[]
-}
 
 model Feats {
   id          Int    @id @default(autoincrement())

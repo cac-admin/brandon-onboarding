@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { api } from "~/trpc/react"; 
-import styles from "../index.module.css";
 
 interface ModalProps {
 closeModal: () => void;
@@ -13,6 +12,7 @@ function closeModal() {
 }
 
 export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
+    const utils = api.useUtils();
 
     const [form, setForm] = useState ({
         name: "",
@@ -30,8 +30,10 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
     });
 
     const createCharacter = api.addCharacter.create.useMutation({
-        onSuccess: () => {
+        onSuccess: async () => {
             closeModal();
+            await utils.playerCharacters.invalidate();
+
         },
         onError: (error) => {
             console.error("Error creating Character", error)
@@ -53,7 +55,7 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
             char: form.char,
             race: form.race,
             status: form.status,
-        })
+        }) 
     }
 
     const handleChange = (

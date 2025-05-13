@@ -1,5 +1,5 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-import { playerCharactersRouter } from "./routers/adminPlayerCharacters";
+import { characterTableRouter } from "./routers/characterTableRouter";
 import { characterRouter } from "./routers/CharactersRouter";/**
  * This is the primary router for your server.
  *
@@ -7,7 +7,7 @@ import { characterRouter } from "./routers/CharactersRouter";/**
  */
 export const appRouter = createTRPCRouter({
   addCharacter: characterRouter,
-  playerCharacters: playerCharactersRouter,
+  playerCharacters: characterTableRouter,
 });
 
 // export type definition of API
