@@ -4,6 +4,30 @@
     width: 100%
 }
 
+.modal-container {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.4);
+    max-height:100%;
+    
+}
+
+.modal {
+    border-radius: 5px;
+    padding: 2rem;
+    background-color: white;
+    width: 25rem;
+    overflow-y: auto;
+    height: 100%;
+}
+
 .table {
 /* display: block; */
 overflow: hidden; 

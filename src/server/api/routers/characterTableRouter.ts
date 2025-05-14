@@ -4,15 +4,16 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "../trpc";
+import type { Feats } from "~/app/_components/table";
 
 
 export const characterTableRouter = createTRPCRouter({
-
+  // Gets logged in users character only 
   getCharacter: protectedProcedure.query(async ({ ctx }) => {
     const userId = String(ctx.session.user.id)
     const characters = await ctx.db.character.findMany({
     where: {
-      userId: userId,  // Ensure you filter based on the session user ID
+      userId: userId,  
     },
     select: {
       userId: true,
@@ -21,6 +22,7 @@ export const characterTableRouter = createTRPCRouter({
           name: true,
         },
       },
+      id: true,
       name: true,
       level: true,
       currentHp: true,
@@ -33,10 +35,23 @@ export const characterTableRouter = createTRPCRouter({
       char: true,
       // status: true,
       Race: true,
+      feats: true,
     }
   });
 
     return characters ?? null;  // Return the found character or null if none
+  }),
+})
+
+export const FeatRouter = createTRPCRouter({
+  // Collects all feats in database 
+  getFeats: publicProcedure.query(async ({ ctx }) => {
+    const Feats = await ctx.db.feats.findMany( {
+      select: {
+        name: true,
+      }
+    })
+    return Feats ?? null;
   }),
 })
 

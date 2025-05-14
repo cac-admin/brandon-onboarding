@@ -12,29 +12,33 @@ export function AdminPage() {
     };
 
     return (
-        //Button 
-        <button 
-            onClick={handleClick}
-            className="bg-blue-600 text-white px-4 py-2 roundered">    
-            DM PAGE
-        </button>
+       <button className = "btn" onClick={handleClick} > DM </button>
     ) 
 }
 
 export function PlayerPage () {
-    const router = useRouter() 
+    const router = useRouter();
 
+    // Moves to PlayerPage when clicked 
     const handleClick = () => {
         router.push("/PlayerPage")
     };
 
     return (
         //Button 
-        <button 
-            onClick={handleClick}
-            className="bg-blue-600 text-white px-4 py-2 roundered">    
-            Player Page        
-        </button>
+        <button className = "btn" onClick={handleClick} >Player</button>
     )
-    
+}
+
+// Moves to HomePage when clicked 
+export function HomePage() {
+    const router = useRouter();
+
+    const handlClick = () => {
+        router.push("/")
+    }
+
+    return (
+        <button className="btn" onClick={handlClick}>Home</button>
+    )
 }

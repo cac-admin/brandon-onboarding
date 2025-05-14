@@ -23,19 +23,8 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: powderblue;
-}
-
-.btn {
-  margin-top: 1rem;
-  border: none;
-  background-color: #1d4ed8;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0px 5px 5px #ccc;
-  
+  margin-left: 160px;
+  padding: 0x 10px
 }
 
 .form-group {
@@ -55,4 +44,34 @@
 
 .form-group label {
   margin-bottom: 0.2rem;
+}
+
+.side-bar {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top:0;
+  left:0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  /* background-color: powderblue; */
+}
+
+.btn:hover {
+  color: #f1f1f1
+}
+
+@media screen and (max-height: 450px) {
+  .side-bar {padding-top: 15px;}
+  .side-bar a {font-size: 18px;}
 }

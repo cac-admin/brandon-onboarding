@@ -13,7 +13,8 @@ function closeModal() {
 
 export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
     const utils = api.useUtils();
-
+    
+    // Some default values 
     const [form, setForm] = useState ({
         name: "",
         class: "",
@@ -29,6 +30,7 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
         status: "draft" as "live" | "dead" | "draft",
     });
 
+    // 
     const createCharacter = api.addCharacter.create.useMutation({
         onSuccess: async () => {
             closeModal();
@@ -40,6 +42,7 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
         },
     })
 
+    // Handles the submit of the form, storing form data into database. 
     const handleSubmit  = (e: React.FormEvent) => {
         e.preventDefault();
         createCharacter.mutate({
@@ -60,20 +63,19 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => {
+        ) => {
         const { name, value } = e.target
 
         setForm((prev) => ({
             ...prev, 
             [name]:
-            ["level", "hp", "str", "dex", "con", "int", "wis", "char", "race"].includes(name)
+            ["level", "hp", "str", "dex", "con", "int", "wis", "char", "race", "feat"].includes(name)
             ? parseInt(value)
             : value,
         }))
     }
     return (
         // Closes window when user clicks on backdrop 
-    
         <div
             className="modal-container"
             onClick={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -162,3 +164,6 @@ export const Button = () => {
 function AsyncResource() {
     throw new Error("Function not implemented.");
 }
+
+
+
