@@ -27,7 +27,6 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
         wis: 10,
         char: 10,
         race: 1,
-        status: "draft" as "live" | "dead" | "draft",
     });
 
     // 
@@ -57,7 +56,7 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
             wis: form.wis,
             char: form.char,
             race: form.race,
-            status: form.status,
+            // status: form.status,
         }) 
     }
 
@@ -69,7 +68,7 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
         setForm((prev) => ({
             ...prev, 
             [name]:
-            ["level", "hp", "str", "dex", "con", "int", "wis", "char", "race", "feat"].includes(name)
+            ["level", "hp", "str", "dex", "con", "int", "wis", "char", "race"].includes(name)
             ? parseInt(value)
             : value,
         }))
@@ -89,43 +88,43 @@ export const Modal: React.FC<ModalProps> = ({ closeModal }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group"> 
                         <label htmlFor="name">Name</label>
-                        <input name="name" value={form.name} onChange = {handleChange}/>
+                        <input name="name" value={form.name} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor='class'>Class</label>
-                        <input name="class" value={form.class} onChange = {handleChange}/>
+                        <input name="class" value={form.class} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="level">Level</label>
-                        <input name="level" type="number" value={form.level} onChange = {handleChange}/>
+                        <input name="level" type="number" value={form.level} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="hp">HP</label>
-                        <input name="hp" value={form.hp} onChange = {handleChange}/>
+                        <input name="hp" value={form.hp} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="str">STR</label>
-                        <input name="str" value={form.str} onChange = {handleChange}/>
+                        <input name="str" value={form.str} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="dex">DEX</label>
-                        <input name="dex" value={form.dex} onChange = {handleChange}/>
+                        <input name="dex" value={form.dex} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="con">CON</label>
-                        <input name="con" value={form.con} onChange = {handleChange}/>
+                        <input name="con" value={form.con} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="int">INT</label>
-                        <input name="int" value={form.int} onChange = {handleChange}/>
+                        <input name="int" value={form.int} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="wis">WIS</label>
-                        <input name="wis" value={form.wis} onChange = {handleChange}/>
+                        <input name="wis" value={form.wis} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group"> 
                         <label htmlFor="char">CHAR</label>
-                        <input name="char" value={form.char} onChange = {handleChange}/>
+                        <input name="char" value={form.char} onChange = {handleChange} required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="race">Race</label>

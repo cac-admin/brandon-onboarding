@@ -1,6 +1,10 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-import { characterTableRouter, FeatRouter } from "./routers/characterTableRouter";
-import { characterRouter } from "./routers/CharactersRouter";/**
+import { characterTableRouter, FeatRouter, RaceRouter } from "./routers/characterTableRouter";
+import { characterRouter } from "./routers/CharactersRouter";
+import { characterUpdateRouter } from "./routers/updateCharacterRouter";
+
+/**
+
  * This is the primary router for your server.
  *
  * All routers added in /api/routers should be manually added here.
@@ -9,6 +13,8 @@ export const appRouter = createTRPCRouter({
   addCharacter: characterRouter,
   playerCharacters: characterTableRouter,
   feats: FeatRouter,
+  updateCharacter: characterUpdateRouter,
+  race: RaceRouter,
 });
 
 // export type definition of API

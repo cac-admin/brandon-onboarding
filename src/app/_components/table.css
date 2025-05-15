@@ -1,31 +1,7 @@
 @import "tailwindcss";
 
 .table-wrapper {
-    width: 100%
-}
-
-.modal-container {
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0,0,0,0.4);
-    max-height:100%;
-    
-}
-
-.modal {
-    border-radius: 5px;
-    padding: 2rem;
-    background-color: white;
-    width: 25rem;
-    overflow-y: auto;
-    height: 100%;
+  max-width: 100%;
 }
 
 .table {
@@ -48,11 +24,11 @@ color: #222;
 }
 
 .table th, .table td {
-padding: 0.8rem;
+padding: 0.8;
 }
 
 .table td {
-border-top: 0.5px solid #ddd;
+border-top: 0.5x solid #ddd;
 overflow: hidden; 
 text-overflow: ellipsis; 
 }
@@ -61,8 +37,19 @@ text-overflow: ellipsis;
 background-color: #eee;
 }
 
+.table input {
+    max-width: 300px;
+    width: 100%;
+    padding: 0.20rem;
+    text-align: center;
+}
+
+.table select {
+    width: 100px;
+}
+
 .expand {
-width: 100%;
+    width: 100%;
 }
 
 .label {

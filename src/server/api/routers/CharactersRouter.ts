@@ -30,7 +30,7 @@ export const characterRouter = createTRPCRouter({
       wis: z.number(),
       char: z.number(),
       race: z.number(),
-      status: z.enum(["live", "dead", "draft"]),
+      // status: z.enum(["live", "dead", "draft"]),
     })
   )
   .mutation(async({ input, ctx }) => {

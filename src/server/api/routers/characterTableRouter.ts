@@ -4,7 +4,6 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "../trpc";
-import type { Feats } from "~/app/_components/table";
 
 
 export const characterTableRouter = createTRPCRouter({
@@ -23,6 +22,7 @@ export const characterTableRouter = createTRPCRouter({
         },
       },
       id: true,
+      class: true,
       name: true,
       level: true,
       currentHp: true,
@@ -33,7 +33,7 @@ export const characterTableRouter = createTRPCRouter({
       int: true,
       wis: true,
       char: true,
-      // status: true,
+      status: true,
       Race: true,
       feats: true,
     }
@@ -49,9 +49,23 @@ export const FeatRouter = createTRPCRouter({
     const Feats = await ctx.db.feats.findMany( {
       select: {
         name: true,
+        id: true,
       }
     })
     return Feats ?? null;
+  }),
+})
+
+export const RaceRouter = createTRPCRouter({
+  // Collects all feats in database 
+  getRace: publicProcedure.query(async ({ ctx }) => {
+    const Race = await ctx.db.race.findMany( {
+      select: {
+        name: true,
+        id: true,
+      }
+    })
+    return Race ?? null;
   }),
 })
 
