@@ -30,6 +30,7 @@ model User {
   sessions      Session[]
   characters    Character[]
   role          Role        @default(USER)
+  campaign      Campaigns[]
 }
 
 model Account {
@@ -49,7 +50,22 @@ model Account {
 
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  campaigns Campaigns[] 
+
   @@unique([provider, providerAccountId])
+}
+
+
+model Campaigns {
+  id Int @id @default(autoincrement())
+  campaign String 
+
+  // Only one dm per campaign  
+  userId String
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  players Account[]
+  characters Character[]
 }
 
 model Session {
@@ -98,6 +114,8 @@ model Character {
 
   // connecting associated feat to player character (Many-to-many because player characters can have more than one feat)
   feats Feats[]
+
+  campaigns Campaigns[]
 }
 
 model Race {

@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { auth } from "~/server/auth";
 import { HydrateClient } from "~/trpc/server";
-
-import { HomePage, AdminPage, PlayerPage } from "./_components/PageHandler";
+import Sidebar from "./_components/SideBar";
 
 export default async function Home() {
   const session = await auth();
@@ -22,13 +21,8 @@ export default async function Home() {
         )}
 
         {/* A session must be used in order for the rest of the side bar to be displayed */}
-        <div className = "side-bar">
-          <HomePage />
-          {session?.user && (
-              <><AdminPage />
-              <PlayerPage /></>
-          )}
-        </div>
+        <Sidebar />
+
         {session && <span>Logged in as {session.user?.name}</span>}
           
           <Link

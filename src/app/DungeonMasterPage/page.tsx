@@ -1,7 +1,13 @@
+import Sidebar from "../_components/SideBar";
+
 export default function DungeonMasterPage() {
+
   return (
-    <div>
-      <h1>Dungeon Master Page</h1>
-    </div>
-  );
+      <div className = "App">
+        <Sidebar />
+        
+        <h1 className = "title">Dungeon Master Page</h1>
+        <h2>Sessions</h2>
+      </div>
+    );
 }

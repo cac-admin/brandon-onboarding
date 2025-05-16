@@ -12,7 +12,7 @@ border-collapse: collapse;
 box-shadow: 0px 10px 10px #ccc;
 border-radius: 10px; 
 white-space: nowrap;
-width: 100em;
+width: 120em;
 max-width: 80%;
 margin: auto;
 overflow-x: auto
@@ -84,5 +84,11 @@ background-color: #d9534f;
 }
 
 .delete-btn {
-    color: #e10d05
+    font-size: 32px;
+    color: #e10d05; 
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+  color: #df9494
 }

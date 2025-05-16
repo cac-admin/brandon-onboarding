@@ -53,7 +53,7 @@ export const characterRouter = createTRPCRouter({
         },
 
         Race: {
-          connect: { id: 1 },
+          connect: { id: input.race},
         },
 
         feats: {

@@ -14,7 +14,7 @@
 }
 
 .title {
-  font-size: 70px
+  font-size: 70px;
 }
 
 .App {
@@ -48,7 +48,7 @@
 
 .side-bar {
   height: 100%;
-  width: 160px;
+  width: 200px;
   position: fixed;
   z-index: 1;
   top:0;
@@ -58,20 +58,35 @@
   padding-top: 20px;
 }
 
-.btn {
+.side-bar-btn {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 35px;
+  font-size: px;
   color: #818181;
   display: block;
+  cursor: pointer;
   /* background-color: powderblue; */
 }
 
-.btn:hover {
+.side-bar-btn:hover {
   color: #f1f1f1
 }
 
 @media screen and (max-height: 450px) {
   .side-bar {padding-top: 15px;}
   .side-bar a {font-size: 18px;}
+}
+
+.btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  cursor: pointer;
+}
+
+.btn:hover {
+  color: #c4bebe
 }

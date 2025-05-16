@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import "./table.css";
 import { api } from "~/trpc/react";
-import { useMutation } from "@tanstack/react-query";
-import { number } from "zod";
+import { WarningButton } from "./Modal";
 
 // Defining input fields 
 type characterUpdateInput = {
@@ -37,7 +36,6 @@ export const Table = () => {
 
   const { data: feats, isLoading: featsLoading } = api.feats.getFeats.useQuery();
 
-
   // Refreshes page whenever data has been updated 
   const updateCharacter = api.updateCharacter.updateCharacter.useMutation({
     onSuccess: async () => {
@@ -48,9 +46,9 @@ export const Table = () => {
     },
     });
 
-    
+  // Checks for tables and rows if they are available 
   if (isLoading) return <p>Loading Characters...</p>;
-  if (!rows) return <p>There are no characters</p>;
+  if (!rows) return <h1>You have no character</h1>;
   
   if (raceLoading) return <p>Retrieving Race...</p>;
   if (!race) return <p>Error, no race data</p>;  
@@ -122,9 +120,8 @@ export const Table = () => {
             {rows.map((row) => {
               const rows = formRows[row.id] ?? row;
               
-              
+              // Calculates the number of feats that the user should have 
               let numDropdowns = Math.floor(row.level / 4); 
-              console.log(numDropdowns)
               if (row.level == 20) {
                   numDropdowns -= 1;
               }
@@ -132,6 +129,7 @@ export const Table = () => {
               if (row.level > 19) {
                   numDropdowns += 1;
               }
+              console.log(numDropdowns)
               return (
                 <tr key={row.id}>
                   <td> 
@@ -143,6 +141,7 @@ export const Table = () => {
                   </td>
                   <td> 
                     <input 
+                      type="number"
                       name={'level' + row.id}  
                       defaultValue={row.level} 
                       onChange = {(e) => handleChange(row.id, "level", Number(e.target.value))} 
@@ -223,7 +222,6 @@ export const Table = () => {
                       }
                     }}
                     >
-                      <option>Select a Race</option>
                       {race.map((raceOption) => (
                         <option key={raceOption.id} 
                         value={raceOption.id} >
@@ -232,38 +230,50 @@ export const Table = () => {
                       ))}
                     </select>
                   </td> 
-                  <td> {Array.from({ length: numDropdowns }).map((_, i) => ( 
-                  <select 
-                    key={i} 
-                    className="p-2 border rounded mr-2 mb-2"
-                    onChange={(e) => {
-                    const selectedId = Number(e.target.value);
-                    const selectedFeat = feats.find((f) => f.id === selectedId);
-                    if (selectedFeat) {
-                      // Get existing feats from form state or fall back to original feats
-                      const existingFeats = formRows[row.id]?.feats ?? [...row.feats];
-
-                      // Clone array and update just the one at index `i`
-                      const updatedFeats = [...existingFeats];
-                      updatedFeats[i] = selectedFeat;
-
-                      // Update form row with updated feats
-                      handleChange(row.id, "feats", updatedFeats)
-                    }}}
-                    >
-
-                    {/* Initial feat if user has not chosen one yet  */}
-                    <option>Select a Feat</option> 
-                    {/* Showcase the feats that the user can choose from */}
-                    {feats.map((feat, idx) => (
-                      <option key={idx} value={feat.id}>{feat.name}</option>
-                    ))}
-                  </select>
-                ))} 
-                </td>
                   <td> 
-                    <button type="button" onClick={() => handleSubmit(row)} className="btn"> Save </button>                  
-                    </td>
+                    {/* Creates a number of drop downs equal to the players level + 1 */}
+                    {Array.from({ length: numDropdowns - 1 }).map((_, i) => ( 
+
+                    
+                    <select 
+                      key={i} 
+                      className="p-2 border rounded mr-2 mb-2"
+                      value={formRows[row.id]?.feats?.[i]?.id ?? row.feats?.[i]?.id ?? ""}
+                      onChange={(e) => {
+
+                      // Update feats 
+                      const selectedId = Number(e.target.value);
+                      const selectedFeat = feats.find((f) => f.id === selectedId);
+                      if (selectedFeat) {
+                        // Get existing feats from form state or fall back to original feats
+                        const existingFeats = formRows[row.id]?.feats ?? [...row.feats];
+
+                        // Clone array and update just the one at index `i`
+                        const updatedFeats = [...existingFeats];
+                        updatedFeats[i] = selectedFeat;
+
+                        // Update form row with updated feats
+                        handleChange(row.id, "feats", updatedFeats)
+                      }}}
+                      >
+                      {/* Showcase the feats that the user can choose from */}
+                      {feats.map((feat, idx) => (
+                        <option 
+                        key={idx} 
+                        value={feat.id} 
+                        >
+                          {feat.name} 
+                        </option>
+                      ))}
+                    </select>
+                  ))} 
+                </td>
+                  <td style={{ display: "flex", gap: "10px", alignItems: "center" }}> 
+                    <button type="button" onClick={() => handleSubmit(row)} className="btn" style={{ cursor: "pointer" }}> Save </button>    
+                    {/* Handles deleting a row */}
+                    <WarningButton id={row.id} />
+                            
+                  </td>
                 </tr>
 
               );
@@ -273,3 +283,4 @@ export const Table = () => {
       </div>
   );
 };
+

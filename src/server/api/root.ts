@@ -1,7 +1,6 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-import { characterTableRouter, FeatRouter, RaceRouter } from "./routers/characterTableRouter";
+import { characterTableRouter, FeatRouter, RaceRouter, characterUpdateRouter, CharacterDelete } from "./routers/characterTableRouter";
 import { characterRouter } from "./routers/CharactersRouter";
-import { characterUpdateRouter } from "./routers/updateCharacterRouter";
 
 /**
 
@@ -15,6 +14,7 @@ export const appRouter = createTRPCRouter({
   feats: FeatRouter,
   updateCharacter: characterUpdateRouter,
   race: RaceRouter,
+  delete: CharacterDelete
 });
 
 // export type definition of API
